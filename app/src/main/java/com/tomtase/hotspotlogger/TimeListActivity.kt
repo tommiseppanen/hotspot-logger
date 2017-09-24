@@ -1,6 +1,5 @@
 package com.tomtase.hotspotlogger
 
-import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
@@ -8,19 +7,14 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.net.wifi.WifiManager
-import android.content.IntentFilter
 import android.widget.TextView
-import java.text.SimpleDateFormat
-import java.util.*
-import android.content.Context.MODE_PRIVATE
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import android.content.Intent
 import java.io.FileNotFoundException
 
 
-class TimeListActivity : AppCompatActivity(), IWiFiConnectionObserver {
+class TimeListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,16 +32,11 @@ class TimeListActivity : AppCompatActivity(), IWiFiConnectionObserver {
 
         val intent = Intent(baseContext, WiFiService::class.java)
         startService(intent)
-
-        //val intentFilter = IntentFilter()
-        //intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-        //registerReceiver(WiFiBroadcastReceiver(this), intentFilter)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_time_list, menu)
-
         return true
     }
 
@@ -56,25 +45,11 @@ class TimeListActivity : AppCompatActivity(), IWiFiConnectionObserver {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         val id = item.itemId
-
-
         if (id == R.id.action_refresh) {
             readFile()
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun wifiConnectionChanged(name: String) {
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
-        if (name.isEmpty())
-            toolbar.title = getString(R.string.app_name)
-        else
-            toolbar.title = name
-
-        val textview = findViewById(R.id.textview) as TextView
-        val time = SimpleDateFormat("HH:mm").format(Date())
-        textview.text = "$time $name \n${textview.text}"
     }
 
     private fun readFile() {
@@ -93,6 +68,5 @@ class TimeListActivity : AppCompatActivity(), IWiFiConnectionObserver {
         } catch (e: FileNotFoundException) {
             //no need to worry
         }
-
     }
 }

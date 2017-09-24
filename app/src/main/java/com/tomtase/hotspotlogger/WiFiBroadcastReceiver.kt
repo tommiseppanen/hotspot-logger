@@ -28,8 +28,5 @@ class WiFiBroadcastReceiver(val observer: IWiFiConnectionObserver) : BroadcastRe
                 }
             }
         }
-
     }
-
-
 }
